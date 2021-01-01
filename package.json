@@ -31,12 +31,9 @@
   },
   "devDependencies": {
     "@types/async": "^2.4.1",
-    "@types/aws-lambda": "^8.10.19",
-    "@types/jsonwebtoken": "^8.3.9",
     "@types/node": "^11.9.5",
     "@typescript-eslint/eslint-plugin": "^4.10.0",
     "@typescript-eslint/parser": "^4.10.0",
-    "aws-sdk": "^2.411.0",
     "eslint": "^7.15.0",
     "eslint-plugin-prettier": "^3.3.0",
     "prettier": "^2.2.1",
