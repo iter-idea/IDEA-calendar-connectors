@@ -1,0 +1,46 @@
+{
+  "name": "idea-calendar-connectors",
+  "version": "0.0.1",
+  "description": "IDEA's calendar connectors",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "./build.sh",
+    "publishPackage": "./build.sh && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uatisdeproblem/IDEA-calendar-connectors.git"
+  },
+  "keywords": [
+    "idea",
+    "utilities",
+    "resource"
+  ],
+  "author": "ITER IDEA <info@iter-idea.com> (https://iter-idea.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uatisdeproblem/IDEA-calendar-connectors/issues"
+  },
+  "homepage": "https://uatisdeproblem.github.io/IDEA-calendar-connectors",
+  "dependencies": {
+    "async": "^3.1.0",
+    "axios": "^0.19.0",
+    "idea-toolbox": "^6.2.0",
+    "moment-timezone": "^0.5.32"
+  },
+  "devDependencies": {
+    "@types/async": "^2.4.1",
+    "@types/aws-lambda": "^8.10.19",
+    "@types/jsonwebtoken": "^8.3.9",
+    "@types/node": "^11.9.5",
+    "@typescript-eslint/eslint-plugin": "^4.10.0",
+    "@typescript-eslint/parser": "^4.10.0",
+    "aws-sdk": "^2.411.0",
+    "eslint": "^7.15.0",
+    "eslint-plugin-prettier": "^3.3.0",
+    "prettier": "^2.2.1",
+    "typedoc": "^0.17.8",
+    "typescript": "^3.9.7"
+  }
+}
