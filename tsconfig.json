@@ -1,22 +1,20 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
+    "rootDir": "src",
+    "outDir": "dist",
+
     "declaration": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "strict": true,
-    "strictNullChecks": false,
+    "declarationMap": false,
+    "importHelpers": false,
     "module": "commonjs",
-    "moduleResolution": "node",
+    "removeComments": false,
     "sourceMap": false,
     "target": "es6",
-    "rootDir": "./src",
-    "outDir": "./dist"
-  },
-  "exclude": ["node_modules", "dist"],
-  "plugins": [
-    {
-      "name": "typescript-tslint-plugin"
-    }
-  ]
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true
+  }
 }
