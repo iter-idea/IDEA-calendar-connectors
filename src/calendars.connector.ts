@@ -72,7 +72,7 @@ export abstract class CalendarsConnector {
   /**
    * Get/put for each appointment (one by one) to avoid erasing the linked objects; no error checking.
    */
-  protected batchGetPutHelper(appointments: Array<Appointment>, directPut?: boolean): Promise<void> {
+  protected batchGetPutHelper(appointments: Appointment[], directPut?: boolean): Promise<void> {
     return new Promise(resolve => {
       if (directPut) {
         this.dynamoDB

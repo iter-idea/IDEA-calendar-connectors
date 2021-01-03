@@ -43,12 +43,12 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
         .then((calToken: any) => {
           // request an access token, to make API requests
           const url = BASE_URL_GOOGLE_API.concat(
-            `oauth2/v4/token`,
+            'oauth2/v4/token',
             `?client_id=${GOOGLE_CLIENT_ID}`,
             `&client_secret=${GOOGLE_CLIENT_SECRET}`,
             `&scope=${GOOGLE_API_SCOPE}`,
-            `&refresh_token=${calToken.token}`,
-            `&grant_type=refresh_token`
+            `&refresh_token=${String(calToken.token)}`,
+            '&grant_type=refresh_token'
           );
           Axios.default
             .post(url, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
@@ -77,12 +77,12 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
     return new Promise((resolve, reject) => {
       // send the code provided to validate it and to receive the tokens
       const url = BASE_URL_GOOGLE_API.concat(
-        `oauth2/v4/token`,
+        'oauth2/v4/token',
         `?client_id=${GOOGLE_CLIENT_ID}`,
         `&client_secret=${GOOGLE_CLIENT_SECRET}`,
         `&scope=${GOOGLE_API_SCOPE}`,
         `&code=${code}`,
-        `&grant_type=authorization_code`,
+        '&grant_type=authorization_code',
         `&redirect_uri=${projectURL.concat('/', GOOGLE_REDIRECT_URI)}`
       );
       Axios.default
@@ -167,8 +167,8 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
             `calendar/v3/calendars/${calendar.external.calendarId}/events`,
             `?maxResults=${GOOGLE_SYNC_MAX_RESULTS}`,
             `&maxAttendees=${GOOGLE_MAX_ATTENDEES}`,
-            `&showHiddenInvitations=true`,
-            `&singleEvents=true`
+            '&showHiddenInvitations=true',
+            '&singleEvents=true'
           );
           if (calendar.external.syncBookmark) url = url.concat('&syncToken=', calendar.external.syncBookmark);
           // if the pageBookmark is set it means we are synchronising another page of the same sync window
@@ -293,7 +293,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
           // request the edit of the appointment
           const url = BASE_URL_GOOGLE_API.concat(
             `calendar/v3/calendars/${calendar.external.calendarId}/events/${id}`,
-            `?sendUpdates=all`
+            '?sendUpdates=all'
           );
           Axios.default
             .patch(url, app, { headers: { Authorization: 'Bearer '.concat(token) } })

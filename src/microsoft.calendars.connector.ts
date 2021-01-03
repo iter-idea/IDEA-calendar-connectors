@@ -52,7 +52,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
             .post(
               'https://login.microsoftonline.com/common/oauth2/v2.0/token',
               `client_id=${MICROSOFT_CLIENT_ID}&client_secret=${MICROSOFT_CLIENT_SECRET}&scope=${MICROSOFT_API_SCOPE}` +
-                `&refresh_token=${calToken.token}&grant_type=refresh_token`,
+                `&refresh_token=${String(calToken.token)}&grant_type=refresh_token`,
               { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
             )
             .then((res: Axios.AxiosResponse) => {
@@ -174,7 +174,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
               if (!values.length) return resolve(false); // no appointments to update
               // prepare the support structures
               const appToRemove = new Array<string>();
-              const occurrences: { [key: string]: Array<any> } = {}; // grouped by master appointment
+              const occurrences: { [key: string]: any[] } = {}; // grouped by master appointment
               const appointments = new Array<Appointment>();
               // manage each value based on its type
               values.forEach((x: any) => {
@@ -192,13 +192,13 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
               // since the edited/deleted occurences aren't managed as normal events by Microsoft,
               // we need to delete/re-insert all of them every time one of them changes.
               // Note: when an occurence changes, all of its siblings are returned in the same API request.
-              // This is a parallel action (for each master event) that waits for all of its occurrences to be (re)inserted.
+              // This is a parallel action (for each master event) that waits for its occurrences to be (re)inserted.
               const masterAppointmentsIds = Object.keys(occurrences);
               logger('MASTER APPOINTMENTS TO MANAGE', null, masterAppointmentsIds.length);
               each(
                 masterAppointmentsIds,
                 (masterId, done) => {
-                  logger('--- OCCURENCES', null, `${occurrences[masterId].length} (${masterAppointmentsIds})`);
+                  logger('--- OCCURENCES', null, `${occurrences[masterId].length} (${masterId})`);
                   // find the master to gather the full information
                   const masterEvent = values.find((master: any) => master.id === masterId);
                   if (!masterEvent) return done();
@@ -291,7 +291,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
           }
         })
         .then(
-          (occurrencesToDelete: Array<Appointment>) =>
+          (occurrencesToDelete: Appointment[]) =>
             // delete the occurences
             this.dynamoDB
               .batchDelete(
@@ -475,7 +475,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
       },
       isAllDay: appointment.allDay,
       isReminderOn: Boolean(appointment.notifications.length),
-      reminderMinutesBeforeStart: Boolean(appointment.notifications.length) // Microsoft has only one reminder
+      reminderMinutesBeforeStart: appointment.notifications.length // Microsoft has only one reminder
         ? appointment.notifications[0].minutes
         : null,
       attendees: appointment.attendees.map(a => ({
