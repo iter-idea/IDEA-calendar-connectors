@@ -25,7 +25,7 @@
   "homepage": "https://uatisdeproblem.github.io/IDEA-calendar-connectors",
   "dependencies": {
     "async": "^3.1.0",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "idea-toolbox": "^6.2.0",
     "moment-timezone": "^0.5.32"
   },
