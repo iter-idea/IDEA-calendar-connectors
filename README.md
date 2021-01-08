@@ -4,7 +4,7 @@ Connectors to link external calendaring services such as Google Calendar or Micr
 
 ## Installation
 
-`npm install idea-calendar-connectors`
+`npm i idea-calendar-connectors`
 
 ## Usage
 

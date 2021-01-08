@@ -1,6 +1,6 @@
 {
   "name": "idea-calendar-connectors",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "IDEA's calendar connectors",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -25,8 +25,8 @@
   "homepage": "https://uatisdeproblem.github.io/IDEA-calendar-connectors",
   "dependencies": {
     "async": "^3.1.0",
-    "axios": "^0.19.0",
-    "idea-toolbox": "^6.2.0",
+    "axios": "^0.21.1",
+    "idea-toolbox": "^6.2.1",
     "moment-timezone": "^0.5.32"
   },
   "devDependencies": {
@@ -38,7 +38,11 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsdoc": "^30.7.9",
     "eslint-plugin-prefer-arrow": "^1.2.2",
+    "ts-loader": "^8.0.14",
     "typedoc": "^0.17.8",
-    "typescript": "^3.9.7"
+    "typescript": "^3.9.7",
+    "webpack": "^5.11.1",
+    "webpack-cli": "^4.3.1",
+    "webpack-node-externals": "^2.5.2"
   }
 }
