@@ -40,7 +40,7 @@ const BASE_URL_MICROSOFT_API = 'https://graph.microsoft.com/v1.0/';
 ///
 
 export class MicrosoftCalendarsConnector extends CalendarsConnector {
-  public getAccessToken(calendar: Calendar, force?: boolean): Promise<string> {
+  getAccessToken(calendar: Calendar, force?: boolean): Promise<string> {
     return new Promise((resolve, reject) => {
       if (this.token && !force) return resolve(this.token);
       // get the refresh token
@@ -68,7 +68,9 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
                     TableName: this.TABLES.calendarsTokens,
                     Item: { calendarId: calendar.calendarId, token: refreshToken }
                   })
-                  .catch(() => {}); // ignore errors
+                  .catch(() => {
+                    /* ignore errors */
+                  });
             })
             .catch((err: Error) => reject(err));
         })
@@ -76,7 +78,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     });
   }
 
-  public configure(calendarId: string, code: string, projectURL: string): Promise<void> {
+  configure(calendarId: string, code: string, projectURL: string): Promise<void> {
     return new Promise((resolve, reject) => {
       // send the code provided to validate it and to receive the tokens
       const redirectURI = projectURL.concat('/', MICROSOFT_REDIRECT_URI);
@@ -107,7 +109,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     });
   }
 
-  public updateCalendarConfiguration(calendar: Calendar): Promise<Calendar> {
+  updateCalendarConfiguration(calendar: Calendar): Promise<Calendar> {
     return new Promise((resolve, reject) => {
       this.getAccessToken(calendar)
         .then(token => {
@@ -147,7 +149,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     });
   }
 
-  public syncCalendar(calendar: Calendar, firstSync?: boolean): Promise<boolean> {
+  syncCalendar(calendar: Calendar, firstSync?: boolean): Promise<boolean> {
     return new Promise((resolve, reject) => {
       logger('SYNC CALENDAR', null, firstSync ? 'FIRST SYNC' : 'DELTA');
       this.getAccessToken(calendar)
@@ -308,7 +310,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     });
   }
 
-  public getAppointment(calendar: Calendar, appointmentId: string): Promise<Appointment> {
+  getAppointment(calendar: Calendar, appointmentId: string): Promise<Appointment> {
     return new Promise((resolve, reject) => {
       this.getAccessToken(calendar)
         .then(token => {
@@ -325,7 +327,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     });
   }
 
-  public postAppointment(calendar: Calendar, appointment: Appointment): Promise<Appointment> {
+  postAppointment(calendar: Calendar, appointment: Appointment): Promise<Appointment> {
     return new Promise((resolve, reject) => {
       this.getAccessToken(calendar)
         .then(token => {
@@ -345,7 +347,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     });
   }
 
-  public putAppointment(calendar: Calendar, appointment: Appointment): Promise<void> {
+  putAppointment(calendar: Calendar, appointment: Appointment): Promise<void> {
     return new Promise((resolve, reject) => {
       this.getAccessToken(calendar)
         .then(token => {
@@ -365,7 +367,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     });
   }
 
-  public deleteAppointment(calendar: Calendar, appointmentId: string): Promise<void> {
+  deleteAppointment(calendar: Calendar, appointmentId: string): Promise<void> {
     return new Promise((resolve, reject) => {
       this.getAccessToken(calendar)
         .then(token => {
@@ -387,7 +389,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
    * Note: Microsoft doesn't allow changing the attendees statuses with the classic patch;
    * it requires a specific request.
    */
-  public updateAppointmentAttendance(
+  updateAppointmentAttendance(
     calendar: Calendar,
     appointment: Appointment,
     attendance: AppointmentAttendance

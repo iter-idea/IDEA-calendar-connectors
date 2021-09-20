@@ -1,19 +1,16 @@
 {
+  "extends": "./node_modules/@tsconfig/node14/tsconfig.json",
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
+    "lib": ["es2020"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es2020",
     "declaration": true,
     "declarationMap": false,
-    "importHelpers": false,
-    "module": "commonjs",
     "removeComments": false,
-    "sourceMap": true,
-    "target": "es6",
-    "strict": true,
+    "sourceMap": false,
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true
+    "outDir": "dist"
   }
 }

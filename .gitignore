@@ -1,5 +1,3 @@
-# IDEA .gitignore template
-
 # Specifies intentionally untracked files to ignore when using Git
 # http://git-scm.com/docs/gitignore
 
@@ -32,13 +30,3 @@ $RECYCLE.BIN/
 .DS_Store
 Thumbs.db
 UserInterfaceState.xcuserstate
-
-# @idea custom
-api/**/_out
-api/**/*.zip
-api/**/index.js
-api/_models/**/*.js
-api/**/connectors/*.js
-client/src/components/_models
-*.map
-.vs

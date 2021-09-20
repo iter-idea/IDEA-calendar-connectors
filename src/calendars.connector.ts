@@ -23,47 +23,47 @@ export abstract class CalendarsConnector {
   /**
    * Connect the calendar with its external link.
    */
-  public abstract configure(calendarId: string, code: string, projectURL: string): Promise<void>;
+  abstract configure(calendarId: string, code: string, projectURL: string): Promise<void>;
 
   /**
    * Update the configuration of the calendar with external data.
    */
-  public abstract updateCalendarConfiguration(calendar: Calendar): Promise<Calendar>;
+  abstract updateCalendarConfiguration(calendar: Calendar): Promise<Calendar>;
 
   /**
    * Get an access token for the service.
    */
-  public abstract getAccessToken(calendar: Calendar, force?: boolean): Promise<string>;
+  abstract getAccessToken(calendar: Calendar, force?: boolean): Promise<string>;
 
   /**
    * Synchronise the given calendar with its linked one.
    */
-  public abstract syncCalendar(calendar: Calendar, firstSync?: boolean): Promise<boolean>;
+  abstract syncCalendar(calendar: Calendar, firstSync?: boolean): Promise<boolean>;
 
   /**
    * Get an appointment from the external calendar.
    */
-  public abstract getAppointment(calendar: Calendar, appointmentId: string): Promise<Appointment>;
+  abstract getAppointment(calendar: Calendar, appointmentId: string): Promise<Appointment>;
 
   /**
    * Add an appointment in the external calendar and return it updated with external information.
    */
-  public abstract postAppointment(calendar: Calendar, appointment: Appointment): Promise<Appointment>;
+  abstract postAppointment(calendar: Calendar, appointment: Appointment): Promise<Appointment>;
 
   /**
    * Edit an appointment in the external calendar.
    */
-  public abstract putAppointment(calendar: Calendar, appointment: Appointment): Promise<void>;
+  abstract putAppointment(calendar: Calendar, appointment: Appointment): Promise<void>;
 
   /**
    * Delete an appointment from the external calendar.
    */
-  public abstract deleteAppointment(calendar: Calendar, appointmentId: string): Promise<void>;
+  abstract deleteAppointment(calendar: Calendar, appointmentId: string): Promise<void>;
 
   /**
    * Update the attendance status of an appointment.
    */
-  public abstract updateAppointmentAttendance(
+  abstract updateAppointmentAttendance(
     calendar: Calendar,
     appointment: Appointment,
     attendance: AppointmentAttendance
