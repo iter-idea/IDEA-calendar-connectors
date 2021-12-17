@@ -458,7 +458,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     });
   }
   protected convertAppointmentToExternal(appointment: Appointment): any {
-    return {
+    const res: any = {
       subject: appointment.title,
       location: { displayName: appointment.location },
       body: { content: appointment.description, contentType: 'text' },
@@ -477,14 +477,14 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
       },
       isAllDay: appointment.allDay,
       isReminderOn: Boolean(appointment.notifications.length),
-      reminderMinutesBeforeStart: appointment.notifications.length // Microsoft has only one reminder
-        ? appointment.notifications[0].minutes
-        : null,
       attendees: appointment.attendees.map(a => ({
         status: { response: this.convertAttendanceToExternal(a.attendance) },
         emailAddress: { address: a.email }
       }))
     };
+    // needed since Microsoft does not accept reminderMinutesBeforeStart: null
+    if (appointment.notifications.length) res.reminderMinutesBeforeStart = appointment.notifications[0].minutes;
+    return res;
   }
   private getRequestURLByAttendance(attendance: AppointmentAttendance, id: string): string {
     const url = BASE_URL_MICROSOFT_API.concat(`me/events/${id}/`);
