@@ -27,14 +27,14 @@
   },
   "homepage": "https://uatisdeproblem.github.io/IDEA-calendar-connectors",
   "dependencies": {
-    "async": "^3.2.1",
-    "axios": "^0.21.4",
-    "idea-toolbox": "^6.4.1",
-    "moment-timezone": "^0.5.33"
+    "async": "^3.2.2",
+    "axios": "^0.24.0",
+    "idea-toolbox": "^6.5.4",
+    "moment-timezone": "^0.5.34"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.0",
-    "@types/async": "^3.2.8",
+    "@types/async": "^3.2.10",
     "@types/aws-lambda": "^8.10.72",
     "@types/node": "^14.14.26",
     "@typescript-eslint/eslint-plugin": "^4.31.1",
