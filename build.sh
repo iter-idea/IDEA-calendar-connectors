@@ -18,4 +18,4 @@ npm run compile 1>/dev/null
 
 # generate documentation
 echo -e "${C}Documenting...${NC}"
-npm run docs index.ts 1>/dev/null
+npm run docs 1>/dev/null

@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint --ext .ts",
     "compile": "tsc --build",
-    "docs": "typedoc",
+    "docs": "typedoc index.ts",
     "build": "./build.sh",
     "publishPackage": "./build.sh && npm publish"
   },
@@ -27,20 +27,20 @@
   },
   "homepage": "https://uatisdeproblem.github.io/IDEA-calendar-connectors",
   "dependencies": {
-    "async": "^3.2.3",
-    "axios": "^0.24.0",
-    "idea-toolbox": "^6.5.8",
+    "async": "^3.2.4",
+    "axios": "^0.27.2",
+    "idea-toolbox": "^6.5.19",
     "moment-timezone": "^0.5.34"
   },
   "devDependencies": {
-    "@tsconfig/node14": "^1.0.0",
+    "@tsconfig/node16": "^1.0.3",
     "@types/async": "^3.2.12",
-    "@types/aws-lambda": "^8.10.72",
-    "@types/node": "^14.14.26",
-    "@typescript-eslint/eslint-plugin": "^4.31.1",
-    "@typescript-eslint/parser": "^4.31.1",
-    "eslint": "^7.32.0",
-    "typedoc": "^0.22.4",
-    "typescript": "^4.4.3"
+    "@types/aws-lambda": "^8.10.101",
+    "@types/node": "^18.6.3",
+    "@typescript-eslint/eslint-plugin": "^5.32.0",
+    "@typescript-eslint/parser": "^5.32.0",
+    "eslint": "^8.21.0",
+    "typedoc": "^0.23.10",
+    "typescript": "^4.7.4"
   }
 }

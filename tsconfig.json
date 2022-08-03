@@ -1,14 +1,7 @@
 {
-  "extends": "./node_modules/@tsconfig/node14/tsconfig.json",
+  "extends": "./node_modules/@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "lib": ["es2020"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "target": "es2020",
     "declaration": true,
-    "declarationMap": false,
-    "removeComments": false,
-    "sourceMap": false,
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
     "outDir": "dist"
