@@ -14,4 +14,4 @@ import { CalendarsConnector } from 'idea-calendar-connectors';
 
 ## Documentation
 
-Documentation generated with TypeDoc: [link](https://uatisdeproblem.github.io/IDEA-calendar-connectors).
+Documentation generated with TypeDoc: [link](https://iter-idea.github.io/IDEA-calendar-connectors).

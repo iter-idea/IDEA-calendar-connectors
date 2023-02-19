@@ -1,6 +1,6 @@
 {
   "name": "idea-calendar-connectors",
-  "version": "1.1.3",
+  "version": "1.1.5",
   "description": "IDEA's calendar connectors",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/uatisdeproblem/IDEA-calendar-connectors.git"
+    "url": "git+https://github.com/iter-idea/IDEA-calendar-connectors.git"
   },
   "keywords": [
     "idea",
@@ -23,9 +23,9 @@
   "author": "ITER IDEA <info@iter-idea.com> (https://iter-idea.com)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/uatisdeproblem/IDEA-calendar-connectors/issues"
+    "url": "https://github.com/iter-idea/IDEA-calendar-connectors/issues"
   },
-  "homepage": "https://uatisdeproblem.github.io/IDEA-calendar-connectors",
+  "homepage": "https://iter-idea.github.io/IDEA-calendar-connectors",
   "dependencies": {
     "async": "^3.2.4",
     "axios": "^0.27.2",
