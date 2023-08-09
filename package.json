@@ -28,9 +28,9 @@
   "homepage": "https://iter-idea.github.io/IDEA-calendar-connectors",
   "dependencies": {
     "async": "^3.2.4",
-    "axios": "^0.27.2",
-    "idea-toolbox": "^6.5.19",
-    "moment-timezone": "^0.5.34"
+    "axios": "^1.4.0",
+    "idea-toolbox": "^6.7.3",
+    "moment-timezone": "^0.5.43"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
