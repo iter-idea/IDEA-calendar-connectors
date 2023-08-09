@@ -12,8 +12,7 @@ import {
   AppointmentNotification,
   AppointmentNotificationMethods,
   Calendar,
-  ExternalCalendarPermissions,
-  logger
+  ExternalCalendarPermissions
 } from 'idea-toolbox';
 
 import { CalendarsConnector } from './calendars.connector';
@@ -151,7 +150,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
 
   syncCalendar(calendar: Calendar, firstSync?: boolean): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      logger('SYNC CALENDAR', null, firstSync ? 'FIRST SYNC' : 'DELTA');
+      console.log('SYNC CALENDAR', firstSync ? 'FIRST SYNC' : 'DELTA');
       this.getAccessToken(calendar)
         .then(token => {
           // start the sync from last bookmark (delta); if there isn't one, start frorm fresh with a large date interval
@@ -169,10 +168,10 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
               // if there was data to sync, update the sync bookmark
               // -> nextLink: there is more data; deltaLink: there was data but after this run it's synchronised
               const newBookmark = res.data['@odata.nextLink'] || res.data['@odata.deltaLink'];
-              logger('IS THERE MORE DATA AFTER THIS RUN?', null, Boolean(res.data['@odata.nextLink']));
+              console.log('IS THERE MORE DATA AFTER THIS RUN?', Boolean(res.data['@odata.nextLink']));
               // gather the data to sync, if any
               const values = res.data.value;
-              logger('APPOINTMENTS TO SYNC', null, values.length);
+              console.log('APPOINTMENTS TO SYNC', values.length);
               if (!values.length) return resolve(false); // no appointments to update
               // prepare the support structures
               const appToRemove = new Array<string>();
@@ -196,11 +195,11 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
               // Note: when an occurence changes, all of its siblings are returned in the same API request.
               // This is a parallel action (for each master event) that waits for its occurrences to be (re)inserted.
               const masterAppointmentsIds = Object.keys(occurrences);
-              logger('MASTER APPOINTMENTS TO MANAGE', null, masterAppointmentsIds.length);
+              console.log('MASTER APPOINTMENTS TO MANAGE', masterAppointmentsIds.length);
               each(
                 masterAppointmentsIds,
                 (masterId, done) => {
-                  logger('--- OCCURENCES', null, `${occurrences[masterId].length} (${masterId})`);
+                  console.log('--- OCCURENCES', `${occurrences[masterId].length} (${masterId})`);
                   // find the master to gather the full information
                   const masterEvent = values.find((master: any) => master.id === masterId);
                   if (!masterEvent) return done();
@@ -236,10 +235,10 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
                 },
                 () => {
                   // batch-save the normal appointments
-                  logger('APPOINTMENTS TO INSERT', null, appointments.length);
+                  console.log('APPOINTMENTS TO INSERT', appointments.length);
                   this.batchGetPutHelper(appointments, firstSync).then(() => {
                     // remove the deleted appointments (flagged earlier)
-                    logger('APPOINTMENTS TO DELETE', null, appToRemove.length);
+                    console.log('APPOINTMENTS TO DELETE', appToRemove.length);
                     this.dynamoDB
                       .batchDelete(
                         this.TABLES.appointments,
@@ -339,7 +338,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
             .post(url, app, { headers: { Authorization: token } })
             .then((res: Axios.AxiosResponse) => resolve(this.convertAppointmentFromExternal(res.data, calendar)))
             .catch((err: Error) => {
-              logger('POST APPOINTMENT', err);
+              console.error('POST APPOINTMENT', err);
               reject(err);
             });
         })
@@ -359,7 +358,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
             .patch(url, app, { headers: { Authorization: token } })
             .then(() => resolve())
             .catch((err: Error) => {
-              logger('PUT APPOINTMENT', err);
+              console.error('PUT APPOINTMENT', err);
               reject(err);
             });
         })
@@ -377,7 +376,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
             .delete(url, { headers: { Authorization: token } })
             .then(() => resolve())
             .catch((err: Error) => {
-              logger('DELETE APPOINTMENT', err);
+              console.error('DELETE APPOINTMENT', err);
               reject(err);
             });
         })
@@ -404,7 +403,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
             .post(reqURL, { sendResponse: true }, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then(() => resolve())
             .catch((err: Error) => {
-              logger('PATCH APPOINTMENT', err);
+              console.error('PATCH APPOINTMENT', err);
               reject(err);
             });
         })

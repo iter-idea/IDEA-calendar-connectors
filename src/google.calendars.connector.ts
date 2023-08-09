@@ -11,8 +11,7 @@ import {
   AppointmentNotification,
   AppointmentNotificationMethods,
   Calendar,
-  ExternalCalendarPermissions,
-  logger
+  ExternalCalendarPermissions
 } from 'idea-toolbox';
 import { CalendarsConnector } from './calendars.connector';
 
@@ -160,8 +159,8 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
   }
 
   syncCalendar(calendar: Calendar, firstSync?: boolean): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      logger('SYNC CALENDAR', null, firstSync ? 'FIRST SYNC' : 'DELTA');
+    return new Promise((resolve, reject): void => {
+      console.log('SYNC CALENDAR', firstSync ? 'FIRST SYNC' : 'DELTA');
       this.getAccessToken(calendar)
         .then(token => {
           // start the sync from last bookmark; if there isn't one, start frorm fresh
@@ -183,10 +182,10 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
               // -> nextPageToken: there is more data; nextSyncToken: there was data but after this run it's up to date
               const syncBookmark = res.data['nextSyncToken'] || null;
               const pageBookmark = res.data['nextPageToken'] || null;
-              logger('IS THERE MORE DATA AFTER THIS RUN?', null, Boolean(pageBookmark));
+              console.log('IS THERE MORE DATA AFTER THIS RUN?', Boolean(pageBookmark));
               // gather the data to sync, if any
               const values = res.data.items;
-              logger('APPOINTMENTS TO SYNC', null, values.length);
+              console.log('APPOINTMENTS TO SYNC', values.length);
               if (!values.length) return resolve(false); // no appointments to update
               // prepare the support structures
               const appToRemove = new Array<string>();
@@ -199,11 +198,11 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
                 else appointments.push(this.convertAppointmentFromExternal(x, calendar));
               });
               // batch-save the appointments
-              logger('APPOINTMENTS TO INSERT', null, appointments.length);
+              console.log('APPOINTMENTS TO INSERT', appointments.length);
               this.batchGetPutHelper(appointments, firstSync)
                 .then(() => {
                   // remove the deleted appointments (flagged earlier)
-                  logger('APPOINTMENTS TO DELETE', null, appToRemove.length);
+                  console.log('APPOINTMENTS TO DELETE', appToRemove.length);
                   this.dynamoDB
                     .batchDelete(
                       this.TABLES.appointments,
@@ -277,7 +276,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
             .post(url, app, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then((res: Axios.AxiosResponse) => resolve(this.convertAppointmentFromExternal(res.data, calendar)))
             .catch((err: Error) => {
-              logger('POST APPOINTMENT', err);
+              console.error('POST APPOINTMENT', err);
               reject(err);
             });
         })
@@ -301,7 +300,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
             .patch(url, app, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then(() => resolve())
             .catch((err: Error) => {
-              logger('PUT APPOINTMENT', err);
+              console.error('PUT APPOINTMENT', err);
               reject(err);
             });
         })
@@ -321,7 +320,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
             .delete(url, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then(() => resolve())
             .catch((err: Error) => {
-              logger('DELETE APPOINTMENT', err);
+              console.error('DELETE APPOINTMENT', err);
               reject(err);
             });
         })
