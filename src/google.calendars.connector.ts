@@ -2,7 +2,7 @@
 /// IMPORTS
 ///
 
-import Axios = require('axios');
+import Axios from 'axios';
 import Moment = require('moment-timezone');
 import {
   Appointment,
@@ -49,8 +49,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
             `&refresh_token=${String(calToken.token)}`,
             '&grant_type=refresh_token'
           );
-          Axios.default
-            .post(url, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+          Axios.post(url, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
             .then((res: Axios.AxiosResponse) => {
               const refreshToken: string = res.data.refresh_token;
               const accessToken: string = res.data.access_token;
@@ -86,8 +85,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
         '&grant_type=authorization_code',
         `&redirect_uri=${projectURL.concat('/', GOOGLE_REDIRECT_URI)}`
       );
-      Axios.default
-        .post(url, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
+      Axios.post(url, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
         .then((res: Axios.AxiosResponse) => {
           const refreshToken: string = res.data.refresh_token;
           // get the calendar
@@ -114,8 +112,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
         .then(token => {
           // get the external calendar details
           const url = BASE_URL_GOOGLE_API.concat(`calendar/v3/users/me/calendarList/${calendar.external.calendarId}`);
-          Axios.default
-            .get(url, { headers: { Authorization: 'Bearer '.concat(token) } })
+          Axios.get(url, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then((res: Axios.AxiosResponse) => {
               const extCal: any = res.data;
               // update the resource with the external calendar configuration
@@ -138,8 +135,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
               }
               // get the email the user used to register to the service
               const urlProfile = BASE_URL_GOOGLE_API.concat('oauth2/v1/userinfo');
-              Axios.default
-                .get(urlProfile, { headers: { Authorization: 'Bearer '.concat(token) } })
+              Axios.get(urlProfile, { headers: { Authorization: 'Bearer '.concat(token) } })
                 .then((p: Axios.AxiosResponse) => {
                   const profile = p.data;
                   // add the service email to the external info; useful for managing event invitations
@@ -175,8 +171,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
           // if the pageBookmark is set it means we are synchronising another page of the same sync window
           if (calendar.external.pageBookmark) url = url.concat('&pageToken=', calendar.external.pageBookmark);
           // run the request
-          Axios.default
-            .get(url, { headers: { Authorization: 'Bearer '.concat(token) } })
+          Axios.get(url, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then((res: Axios.AxiosResponse) => {
               // if there was data to sync, update the sync bookmark
               // -> nextPageToken: there is more data; nextSyncToken: there was data but after this run it's up to date
@@ -252,8 +247,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
           const url = BASE_URL_GOOGLE_API.concat(
             `calendar/v3/calendars/${calendar.external.calendarId}/events/${appointmentId}`
           );
-          Axios.default
-            .get(url, { headers: { Authorization: 'Bearer '.concat(token) } })
+          Axios.get(url, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then((res: Axios.AxiosResponse) => {
               if (res.data.status === 'cancelled') reject(new Error('EVENT_IS_CANCELLED'));
               else resolve(this.convertAppointmentFromExternal(res.data, calendar));
@@ -272,8 +266,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
           const app = this.convertAppointmentToExternal(appointment);
           // request the creation of the new appointment
           const url = BASE_URL_GOOGLE_API.concat(`calendar/v3/calendars/${calendar.external.calendarId}/events`);
-          Axios.default
-            .post(url, app, { headers: { Authorization: 'Bearer '.concat(token) } })
+          Axios.post(url, app, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then((res: Axios.AxiosResponse) => resolve(this.convertAppointmentFromExternal(res.data, calendar)))
             .catch((err: Error) => {
               console.error('POST APPOINTMENT', err);
@@ -296,8 +289,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
             `calendar/v3/calendars/${calendar.external.calendarId}/events/${id}`,
             '?sendUpdates=all'
           );
-          Axios.default
-            .patch(url, app, { headers: { Authorization: 'Bearer '.concat(token) } })
+          Axios.patch(url, app, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then(() => resolve())
             .catch((err: Error) => {
               console.error('PUT APPOINTMENT', err);
@@ -316,8 +308,7 @@ export class GoogleCalendarsConnector extends CalendarsConnector {
           const url = BASE_URL_GOOGLE_API.concat(
             `calendar/v3/calendars/${calendar.external.calendarId}/events/${appointmentId}`
           );
-          Axios.default
-            .delete(url, { headers: { Authorization: 'Bearer '.concat(token) } })
+          Axios.delete(url, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then(() => resolve())
             .catch((err: Error) => {
               console.error('DELETE APPOINTMENT', err);

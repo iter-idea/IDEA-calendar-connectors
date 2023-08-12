@@ -2,7 +2,7 @@
 /// IMPORTS
 ///
 
-import Axios = require('axios');
+import Axios from 'axios';
 import { each } from 'async';
 import Moment = require('moment-timezone');
 import {
@@ -47,13 +47,12 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
         .get({ TableName: this.TABLES.calendarsTokens, Key: { calendarId: calendar.calendarId } })
         .then((calToken: any) => {
           // request an access token, to make API requests
-          Axios.default
-            .post(
-              'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-              `client_id=${MICROSOFT_CLIENT_ID}&client_secret=${MICROSOFT_CLIENT_SECRET}&scope=${MICROSOFT_API_SCOPE}` +
-                `&refresh_token=${String(calToken.token)}&grant_type=refresh_token`,
-              { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-            )
+          Axios.post(
+            'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+            `client_id=${MICROSOFT_CLIENT_ID}&client_secret=${MICROSOFT_CLIENT_SECRET}&scope=${MICROSOFT_API_SCOPE}` +
+              `&refresh_token=${String(calToken.token)}&grant_type=refresh_token`,
+            { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+          )
             .then((res: Axios.AxiosResponse) => {
               const refreshToken: string = res.data.refresh_token;
               const accessToken: string = res.data.access_token;
@@ -81,13 +80,12 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
     return new Promise((resolve, reject) => {
       // send the code provided to validate it and to receive the tokens
       const redirectURI = projectURL.concat('/', MICROSOFT_REDIRECT_URI);
-      Axios.default
-        .post(
-          'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-          `client_id=${MICROSOFT_CLIENT_ID}&client_secret=${MICROSOFT_CLIENT_SECRET}&scope=${MICROSOFT_API_SCOPE}` +
-            `&code=${code}&grant_type=authorization_code&redirect_uri=${redirectURI}`,
-          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-        )
+      Axios.post(
+        'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+        `client_id=${MICROSOFT_CLIENT_ID}&client_secret=${MICROSOFT_CLIENT_SECRET}&scope=${MICROSOFT_API_SCOPE}` +
+          `&code=${code}&grant_type=authorization_code&redirect_uri=${redirectURI}`,
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+      )
         .then((res: Axios.AxiosResponse) => {
           const refreshToken: string = res.data.refresh_token;
           // get the calendar
@@ -114,8 +112,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
         .then(token => {
           // get the external calendar details
           const url = BASE_URL_MICROSOFT_API.concat(`me/calendars/${calendar.external.calendarId}`);
-          Axios.default
-            .get(url, { headers: { Authorization: token } })
+          Axios.get(url, { headers: { Authorization: token } })
             .then((res: Axios.AxiosResponse) => {
               const extCal: any = res.data;
               // update the resource with the external calendar configuration
@@ -128,8 +125,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
               if (!calendar.color) calendar.color = extCal.color === 'auto' ? DEFAULT_CALENDAR_COLOR : extCal.color;
               // get the email the user used to register to the service
               const urlProfile = BASE_URL_MICROSOFT_API.concat('me');
-              Axios.default
-                .get(urlProfile, { headers: { Authorization: 'Bearer '.concat(token) } })
+              Axios.get(urlProfile, { headers: { Authorization: 'Bearer '.concat(token) } })
                 .then((p: Axios.AxiosResponse) => {
                   const profile = p.data;
                   // add the service email to the external info; useful for managing event invitations
@@ -162,8 +158,9 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
               `&endDateTime=${END_OF_TIME}`
             );
           // run the request
-          Axios.default
-            .get(url, { headers: { Authorization: token, Prefer: `odata.maxpagesize=${MICROSOFT_SYNC_MAX_RESULTS}` } })
+          Axios.get(url, {
+            headers: { Authorization: token, Prefer: `odata.maxpagesize=${MICROSOFT_SYNC_MAX_RESULTS}` }
+          })
             .then((res: Axios.AxiosResponse) => {
               // if there was data to sync, update the sync bookmark
               // -> nextLink: there is more data; deltaLink: there was data but after this run it's synchronised
@@ -317,8 +314,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
           const url = BASE_URL_MICROSOFT_API.concat(
             `me/calendars/${calendar.external.calendarId}/events/${appointmentId}`
           );
-          Axios.default
-            .get(url, { headers: { Authorization: token } })
+          Axios.get(url, { headers: { Authorization: token } })
             .then((res: Axios.AxiosResponse) => resolve(this.convertAppointmentFromExternal(res.data, calendar)))
             .catch((err: Error) => reject(err));
         })
@@ -334,8 +330,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
           const app = this.convertAppointmentToExternal(appointment);
           // request the creation of the new appointment
           const url = BASE_URL_MICROSOFT_API.concat(`me/calendars/${calendar.external.calendarId}/events`);
-          Axios.default
-            .post(url, app, { headers: { Authorization: token } })
+          Axios.post(url, app, { headers: { Authorization: token } })
             .then((res: Axios.AxiosResponse) => resolve(this.convertAppointmentFromExternal(res.data, calendar)))
             .catch((err: Error) => {
               console.error('POST APPOINTMENT', err);
@@ -354,8 +349,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
           const app = this.convertAppointmentToExternal(appointment);
           // request the edit of the appointment
           const url = BASE_URL_MICROSOFT_API.concat(`me/events/${appointment.appointmentId}`);
-          Axios.default
-            .patch(url, app, { headers: { Authorization: token } })
+          Axios.patch(url, app, { headers: { Authorization: token } })
             .then(() => resolve())
             .catch((err: Error) => {
               console.error('PUT APPOINTMENT', err);
@@ -372,8 +366,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
         .then(token => {
           // request the creation of the new appointment
           const url = BASE_URL_MICROSOFT_API.concat(`me/events/${appointmentId}`);
-          Axios.default
-            .delete(url, { headers: { Authorization: token } })
+          Axios.delete(url, { headers: { Authorization: token } })
             .then(() => resolve())
             .catch((err: Error) => {
               console.error('DELETE APPOINTMENT', err);
@@ -399,8 +392,7 @@ export class MicrosoftCalendarsConnector extends CalendarsConnector {
           // calculate the request URL based on the attendance
           const reqURL = this.getRequestURLByAttendance(attendance, appointment.appointmentId);
           // request the edit of the appointment
-          Axios.default
-            .post(reqURL, { sendResponse: true }, { headers: { Authorization: 'Bearer '.concat(token) } })
+          Axios.post(reqURL, { sendResponse: true }, { headers: { Authorization: 'Bearer '.concat(token) } })
             .then(() => resolve())
             .catch((err: Error) => {
               console.error('PATCH APPOINTMENT', err);
