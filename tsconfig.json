@@ -4,6 +4,7 @@
     "declaration": true,
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
+    "useDefineForClassFields": false,
     "outDir": "dist"
   }
 }
