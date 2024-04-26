@@ -2,6 +2,7 @@
   "name": "idea-calendar-connectors",
   "version": "1.1.8",
   "description": "IDEA's calendar connectors",
+  "license": "MPL-2.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -21,7 +22,6 @@
     "resource"
   ],
   "author": "ITER IDEA <info@iter-idea.com> (https://iter-idea.com)",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/iter-idea/IDEA-calendar-connectors/issues"
   },
