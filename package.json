@@ -27,19 +27,19 @@
   },
   "homepage": "https://iter-idea.github.io/IDEA-calendar-connectors",
   "dependencies": {
-    "async": "^3.2.4",
-    "axios": "^1.4.0",
-    "idea-toolbox": "^7.0.6",
-    "moment-timezone": "^0.5.43"
+    "async": "^3.2.5",
+    "axios": "^1.7.2",
+    "idea-toolbox": "^7.0.8",
+    "moment-timezone": "^0.5.45"
   },
   "devDependencies": {
-    "@tsconfig/node18": "^18.2.0",
-    "@types/async": "^3.2.12",
-    "@types/node": "^18.17.4",
-    "@typescript-eslint/eslint-plugin": "^5.47.0",
-    "@typescript-eslint/parser": "^5.47.0",
-    "eslint": "^8.46.0",
-    "typedoc": "^0.24.8",
-    "typescript": "^5.1.6"
+    "@tsconfig/node20": "^20.1.4",
+    "@types/async": "^3.2.24",
+    "@types/node": "^20.14.11",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
+    "eslint": "^8.57.0",
+    "typedoc": "^0.26.5",
+    "typescript": "^5.5.2"
   }
 }
