@@ -27,8 +27,8 @@
   },
   "homepage": "https://iter-idea.github.io/IDEA-calendar-connectors",
   "dependencies": {
-    "async": "^3.2.5",
-    "axios": "^1.7.2",
+    "async": "^3.2.6",
+    "axios": "^1.7.7",
     "idea-toolbox": "^7.0.8",
     "moment-timezone": "^0.5.45"
   },
