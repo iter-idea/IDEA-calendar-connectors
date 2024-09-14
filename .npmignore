@@ -3,12 +3,14 @@
 .vscode/
 docs/
 node_modules/
-src/
+/src/
 .eslintrc.js
+.npmignore
 .gitignore
 .prettierrc
 HOW-TO-RELEASE.md
 
+*.css
 *.sh
 *.json
 # package.json is always included
