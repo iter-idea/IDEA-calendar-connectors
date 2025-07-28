@@ -4,6 +4,7 @@
 
 import Axios from 'axios';
 import { each } from 'async';
+// eslint-disable-next-line
 import Moment = require('moment-timezone');
 import {
   Appointment,

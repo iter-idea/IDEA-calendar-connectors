@@ -3,6 +3,7 @@
 ///
 
 import Axios from 'axios';
+// eslint-disable-next-line
 import Moment = require('moment-timezone');
 import {
   Appointment,
